@@ -1,0 +1,11 @@
+apiVersion: v1 # API version
+kind: Service # Type of object to be run inside K8S cluster. Service - sets up networking in K8S cluster
+metadata:
+  name: redis-cluster-ip-service
+spec:
+  type: ClusterIP # Exposes the service to other services inside the node. Cannot expose it to outside world
+  selector:
+    component: redis
+  ports:
+    - port: 6379 # Exposes this port to other different services/Pods
+      targetPort: 6379 # Routes to the containerPod that has port 3000.

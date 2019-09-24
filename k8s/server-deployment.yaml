@@ -17,3 +17,16 @@ spec:
           image: stephengrider/multi-server
           ports:
             - containerPort: 5000
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-ip-service # Already declared the Redis cluster ip address as service.
+            - name: REDIS_PORT
+              value: 6379 # default port.
+            - name: PGUSER
+              value: postgres # The one we are using. can use secrets if needed.
+            - name: PGHOST
+              value: postgres-cluster-ip-service # Using the postgres cluster ip address as service.
+            - name: PGDATABASE
+              value: postgres 
+            - name: PGHOST
+              value: 5432

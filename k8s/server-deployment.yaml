@@ -30,3 +30,8 @@ spec:
               value: postgres 
             - name: PGHOST
               value: 5432
+            - name: PGPASSWORD 
+              valueFrom: # Secret created from the following command before,
+                secretKeyRef: # kubectl create secret generic pgpassword --from-literal PGPASSWORD=12345asdf
+                  name: pgpassword
+                  key: PGPASSWORD

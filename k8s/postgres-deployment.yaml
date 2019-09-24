@@ -13,7 +13,7 @@ spec:
         component: postgres
     spec:
       containers:
-        - name: server
-          image: stephengrider/multi-postgres
+        - name: postgres
+          image: postgres
           ports:
             - containerPort: 5432

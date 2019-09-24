@@ -13,7 +13,7 @@ spec:
         component: redis
     spec:
       containers:
-        - name: server
-          image: stephengrider/multi-redis
+        - name: redis
+          image: redis
           ports:
             - containerPort: 6379

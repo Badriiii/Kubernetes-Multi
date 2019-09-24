@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim # Request for storage drive which will be independent of the pod. eg Detached disk
+metadata:
+  name: database-persistent-volume-claim
+spec: # Kuberentes need to find the storage-drive/api to do the below requirements
+  accessModes:
+    - ReadWriteOnce # can be used by single node at a time. ReadOnlyMany, ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi

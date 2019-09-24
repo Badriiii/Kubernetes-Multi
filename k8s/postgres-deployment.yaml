@@ -25,3 +25,9 @@ spec:
             - name: postgres-storage # which volume should use
               mountPath: /var/lib/postgresql/data # where the storage should be available
               subPath: postgres # used only for postgres
+          env:
+            - name: PGPASSWORD 
+              valueFrom: # Secret created from the following command before,
+                secretKeyRef: # kubectl create secret generic pgpassword --from-literal PGPASSWORD=12345asdf
+                  name: pgpassword
+                  key: PGPASSWORD

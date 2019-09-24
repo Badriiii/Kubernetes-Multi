@@ -21,7 +21,7 @@ spec:
             - name: REDIS_HOST
               value: redis-cluster-ip-service # Already declared the Redis cluster ip address as service.
             - name: REDIS_PORT
-              value: 6379 # default port.
+              value: '6379' # default port.
             - name: PGUSER
               value: postgres # The one we are using. can use secrets if needed.
             - name: PGHOST
@@ -29,7 +29,7 @@ spec:
             - name: PGDATABASE
               value: postgres 
             - name: PGHOST
-              value: 5432
+              value: '5432'
             - name: PGPASSWORD 
               valueFrom: # Secret created from the following command before,
                 secretKeyRef: # kubectl create secret generic pgpassword --from-literal PGPASSWORD=12345asdf

@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress # We need to install nginx/ingress kubectl. Ingress - Allow incoming traffic to call the cluster IP's
+metadata:
+  name: ingress-service
+  annotations: # additional config options for the ingress object
+    kubernetes.io/ingress.class: nginx # Specifiying to create the ingress controller bassed on nginx project
+    nginx.ingress.kubernetes.io/rewrite-target: / # How our nginx should behave. In this case, send '/' to the service even the request url is '/api' because that's what our server project expects
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: client-cluster-ip-service
+              servicePort: 3000
+          - path: /api/
+            backend:
+              serviceName: server-cluster-ip-service
+              servicePort: 5000

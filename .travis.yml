@@ -1,0 +1,29 @@
+sudo: required
+services:
+  - docker
+env:
+  global:
+    - SHA=$(git rev-parse HEAD) # get the git commit id. will be added this id as image-tag
+    - CLOUDSDK_CORE_DISBLE_PROMPTS=1 # disable any prompts in the gcloud
+before_install:
+  - # Add the encrypted service-account.json which wsa encrypted by using travis cli
+  - curl https://sdk.cloud.google.com | bash > /dev/null; # Installs google cloud sdk
+  - SOURCE $HOME/google-cloud-sdk/path.bash.inc # Adds the bash config in cloud
+  - gcloud components update kubectl # Install kubectl using gcloud cli in our env
+  - gcloud auth activate-service-account --key-file service-account.json # Add auth by checking credentials from service-account.json file
+  - gcloud config set project project_id1232555 # sets the project we are going to use for this
+  - gcloud config set compute/zone us-central1-a # sets the zone where k8s cluster up
+  - gcloud container clusters get-credential multi-cluster # config which cluster we want to use
+    # Login to Docker CLI -(Gets(echo) docker pass from travis config and pass it as stdin)
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Build the test image from the dev docker file
+  - docker build -t programmingwithbadri/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true programmingwithbadri/react-test npm run test # Runs the test and exit from image
+
+deploy:
+  provider: script # get deployment info from script file
+  script: bash ./deploy.sh # script command
+  on:
+    branch: master # Deploy should done only for master branch
